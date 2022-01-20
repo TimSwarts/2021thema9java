@@ -1,6 +1,6 @@
 # Thema 9 Java Wrapper
 All code can be found in the src folder
-Test data is provided in the resoruces
+Test data is provided in the resources
 
 ## Usage
 build a jar, it can be found in the created build folder.

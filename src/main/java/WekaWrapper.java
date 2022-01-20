@@ -2,37 +2,31 @@ import weka.classifiers.AbstractClassifier;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
+
 
 public class WekaWrapper {
     public static void main(String[] args) throws InterruptedException, IOException {
+        // Initiate new objects
         WekaWrapper runWeka = new WekaWrapper();
         ApacheCli apacheCli = new ApacheCli(args);
+        // Fetch input file name from command line
         String inputFile = apacheCli.fileName;
+        // If none given, exit
         if (inputFile == null){
-            System.exit(0);
+            inputFile = "breastcancer_model_input.arff";
+            // System.exit(0);
         }
+        // Start running wrapper
         runWeka.start(inputFile);
-    }
-
-    private static void modifyFileR(String filename) throws InterruptedException, IOException {
-        String cmd = "Rscript ./src/main/resources/r_script_for_java.R " + filename;
-        Runtime run = Runtime.getRuntime();
-        Process pr = run.exec(cmd);
-        pr.waitFor();
-        BufferedReader buf = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-        String line;
-        while ((line=buf.readLine())!= null) {
-            System.out.println(line);
-        }
     }
 
     private void start(String inputFile) {
         try {
             AbstractClassifier fromFile = loadClassifier();
             Instances unknownInstances = loadFile(inputFile);
+            System.out.println(unknownInstances.getClass());
             System.out.println("\nunclassified unknownInstances = \n" + unknownInstances);
             classifyNewInstance(fromFile, unknownInstances);
 

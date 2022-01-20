@@ -40,7 +40,7 @@ public class ApacheCli {
         } catch (ParseException e) {
             // Printing the help when something goes wrong
             System.out.println("An error occurred, please consult the below manual:");
-            helpFormatter.printHelp("projectthema9-1.0.jar", options, true);
+            helpFormatter.printHelp("2021thema9-1.0.jar", options, true);
         }
         return null;
     }

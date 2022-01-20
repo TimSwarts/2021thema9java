@@ -3,22 +3,35 @@ plugins {
 }
 
 group 'tim.bioinf'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = JavaVersion.VERSION_1_8
+version '1.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation('commons-cli:commons-cli:1.4')
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
-    implementation(group: 'nz.ac.waikato.cms.weka', name: 'weka-stable', version: '3.8.0')
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    implementation group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-stable', version: '3.8.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 jar {
-    manifest {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest{
         attributes "Main-Class": "WekaWrapper"
     }
+
+    from {
+        (configurations.runtimeClasspath.findAll { !it.path.endsWith(".pom") }).collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
 }
+
