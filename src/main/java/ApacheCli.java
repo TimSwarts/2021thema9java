@@ -1,6 +1,13 @@
 import org.apache.commons.cli.*;
 
+/**
+ * The ApacheCli class manages the builds Options and parses Arguments to the WekaWrapper class. It allows the user to
+ * input options when calling the java command to run the jar.
+ *
+ * @author Tim Swarts
+ */
 public class ApacheCli {
+    // set class variables
     String[] arguments;
     String fileName;
     private static final String HELP = "help";
@@ -13,6 +20,9 @@ public class ApacheCli {
         this.fileName = parseArguments();
     }
 
+    /**
+     * This function creates the options
+     */
     public void buildOptions(){
         Option help = new Option("h", "help", false, "Get help manual");
         Option filePath = new Option("f", "file-name", true, "Specify path to input " +
@@ -23,6 +33,11 @@ public class ApacheCli {
         options.addOption(filePath);
     }
 
+    /**
+     * This function creates a CommandLineParser, and allows the user to call the help option or add a file name to the
+     * command. If neither is given, the help will be printed along with a message.
+     * @return If a file name is given, its returned so that it can be used in the WekaWrapper, this is a String value
+     */
     public String parseArguments(){
         // Parsing input from the command line
         CommandLineParser parser = new DefaultParser();
